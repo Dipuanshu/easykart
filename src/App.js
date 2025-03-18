@@ -38,10 +38,7 @@ function App() {
     const oldcount = cart[productid] || 0;
     const newcart = { ...cart, [productid]: oldcount + count };
     updateCart(newcart);
-    //upadate krega setcart ko//
-    //ye objcet string ko simple string mai change krega kyuki local storage mai data string ki from mai hi save hota hai//
-    //name hai my-cart jis name s data local storage mai save hoga
-    //setItem store krne k liye aur getItem nikalne k liye jis name s save kiya hai//
+
   }
   function updateCart(newcart) {
     setcart(newcart);
