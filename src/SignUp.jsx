@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Input from "./Input";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 function SignUp(props) {
@@ -238,7 +239,7 @@ function SignUp(props) {
                   <div className="border-r border-black">
                     <RiLockPasswordFill className="m-2 text-2xl" />
                   </div>
-                  <Input
+                  <input
                     value={values.confirm_password}
                     touched={touched.confirm_password}
                     errors={errors.confirm_password}

@@ -19,7 +19,7 @@ function Navsearchbar() {
   };
 
   return (
-    <div className="flex items-center py-2 border rounded-sm bg-white h-12 w-2/6">
+    <div className="flex items-center py-2 border rounded-sm bg-white">
       <input
         className=" focus:outline-none px-2"
         placeholder="Search Product & Brands"

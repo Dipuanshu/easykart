@@ -4,11 +4,8 @@ import { useEffect, useState } from "react";
 import Porductlist from "./Productlist";
 import Nomatching from "./Nomatching";
 import { getProductList } from "./api";
-import { dataFromApi } from "./dataFromApi";
 import Loading from "./Loading";
 import Navbar from "./Navbar";
-
-import Navsearchbar from "./Navserchbar";
 import { useSearchParams } from "react-router-dom";
 
 function ProductlistPage({ productCount }) {
@@ -88,16 +85,9 @@ function ProductlistPage({ productCount }) {
 
       <div className="">
         {data.length > 0 && <Porductlist products={data} />}
-        {/* iska matlab yha per prodlistpage s productlist ko products ki from mai data bheja ja sakta hai
-        wha per ise products ki props mai lenge Porductlist({ products })*/}
       </div>
     </>
   );
 }
 export default ProductlistPage;
-//<div>
-//<Routes>
-// <Route index element={<ProductlistPage />} />
-//<Route path="/view Detail/:id" element={<ProductDetail />} />
-// </Routes>
-// </div>
+
