@@ -9,10 +9,11 @@ import { FaRegUserCircle } from "react-icons/fa";
  import { Link } from "react-router-dom";
 import { useFormik } from "formik";
  import * as Yup from "yup";
-import FormikInput from "./FormikInput";
-import Input from "./Input";
+import NavBottom from "./NavBottom";
+import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-function Login({setUser,setAlert}) {
+function Login({setUser,setAlert,productCount}) {
+  console.log("setAlert",setAlert);
 const nevigate=useNavigate();
   function callLoginApi(values) {
     axios
@@ -25,11 +26,12 @@ const nevigate=useNavigate();
         const { user, token } = response.data;
         localStorage.setItem("token", token);
         localStorage.setItem("user",user.full_name);
-       nevigate("/Homepage")
-       setUser(user)
+        nevigate("/Homepage");
+        setUser(user)
+      
       })
       .catch(() => {
-        setAlert("email not registred");
+      
       });
   }
 
@@ -61,6 +63,8 @@ const nevigate=useNavigate();
   });
 
   return (
+    <>
+    <Navbar productCount={productCount}/>
     <div className="bg-white pt-8">
     
       <div className="h-screen w-full  flex justify-center ">
@@ -163,6 +167,8 @@ const nevigate=useNavigate();
         </form>
       </div>
     </div>
+    <NavBottom/>
+    </>
   );
  }
 export default Login;

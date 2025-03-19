@@ -5,8 +5,9 @@ import { getProductData } from "./api";
 import Loading from "./Loading";
 import Notfound from "./Notfound";
 import Navbar from "./Navbar";
+import NavBottom from "./NavBottom";
 
-function ProductDetail({ onAddToCart }) {
+function ProductDetail({ onAddToCart,productCount }) {
   const id = +useParams().id;
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(true);
@@ -51,7 +52,7 @@ function ProductDetail({ onAddToCart }) {
 
   return (
     <>
-    <Navbar/>
+    <Navbar productCount={productCount}/>
     <div className="py-2 drop-shadow-2xl px-5">
       <div className="max-w-6xl mx-auto">
         <div className="mb-7">
@@ -120,6 +121,7 @@ function ProductDetail({ onAddToCart }) {
         </div>
       </div>
     </div>
+    <NavBottom/>
     </>
   );
 }

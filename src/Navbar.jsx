@@ -9,7 +9,8 @@ import { FaHamburger } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { IoMdPower } from "react-icons/io";
 
-function Navbar({ productcount, handSearch, setUser, id }) {
+function Navbar({ productCount, handSearch, setUser, id }) {
+
   const [menu, setmenu] = useState(false);
 
   function handlmenu() {
@@ -50,7 +51,7 @@ function Navbar({ productcount, handSearch, setUser, id }) {
               <AiOutlineShoppingCart className="text-4xl text-white" />
 
               <div className="-mt-2 -ml-5 text-sm font-bold">
-                {productcount}
+                {localStorage.getItem("token")?productCount:0}
               </div>
 
               <div className="items-center hidden ml-4 text-xl font-medium text-white md:block">
@@ -63,6 +64,7 @@ function Navbar({ productcount, handSearch, setUser, id }) {
             <button
               onClick={() => {
                 localStorage.removeItem("token");
+                localStorage.removeItem("user");
                 setUser(undefined);
               }}
               className="flex items-center gap-2"

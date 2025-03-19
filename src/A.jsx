@@ -1,20 +1,20 @@
-/** @format */
 
-import {React} from "react";
-import { Routes, Route} from "react-router-dom";
+
+
+
+
+
+import React, { useEffect, useState } from "react";
+import ProductlistPage from "./ProductlistPage";
+import { Route, Routes } from "react-router-dom";
 import ProductDetail from "./ProductDetail";
 import Navbar from "./Navbar";
-import ProductlistPage from "./ProductlistPage";
 import Notfound from "./Notfound";
-import Cart from "./Cart";
 import Login from "./Login";
-import FrogetPage from "./FrogetPage";
+import FancyInput from "./FancyInput";
+import Cart from "./Cart";
+import Test from "./Test";
 import SignUp from "./SignUp";
-import UserRoute from "./UserRoute";
-import AuthRoute from "./AuthRoute";
-import UserProvider from "./UserProvider";
-import { useState } from "react";
-import { useEffect } from "react";
 
 //prante s child ko data be
 
@@ -65,76 +65,45 @@ function App() {
     },
     [query]
   );
- return (
-  <>
-    <UserProvider>
-       <div className="flex flex-col h-screen bg-slate-100 overflow-scroll">
-            <div className="grow">
-              <Routes>
-                <Route
-                  path="/HomePage"
-                  element={
-                    <UserRoute>
-                      <ProductlistPage/>
-                    </UserRoute>
-                  }
-                />
-                <Route index element={<Login/>}></Route>
-                <Route
-                  path="/products/:id/"
-                  element={
-                    <UserRoute>
-                      <ProductDetail />
-                    </UserRoute>
-                  }
-                />
-                <Route
-                  path="*"
-                  element={
-                    <UserRoute>
-                      <Notfound/>
-                    </UserRoute>
-                  }
-                />
-                <Route
-                  path="Homepage/Cart"
-                  element={
-                    <UserRoute>
-                      <Cart/>
-                    </UserRoute>
-                  }
-                />
-                <Route
-                  path="/login"
-                  element={
-                    <AuthRoute>
-                      <Login />
-                    </AuthRoute>
-                  }
-                />
-                <Route
-                  path="singup"
-                  element={
-                    <AuthRoute>
-                      <SignUp/>
-                    </AuthRoute>
-                  }
-                />
-                <Route
-                  path="/forget password"
-                  element={
-                    <AuthRoute>
-                      <FrogetPage/>
-                    </AuthRoute>
-                  }
-                />
-              </Routes>
-            </div>
-          
-          </div>
-       
-    </UserProvider>
-    </>
- );
+  //key mai function bhi store kr satkte hai
+  // const e={
+  // hello:function(){
+
+  // }
+
+  //overflow scrool overflow ko scrool mai add krke dikayega//
+  //grwo propety not working//
+  return (
+    <div>
+      <Routes>
+        <Route index element={<Login />}></Route>
+      </Routes>
+      <Routes>
+        <Route path="/login/singup" element={<SignUp />}></Route>
+      </Routes>
+
+      <Routes>
+        <Route
+          path="/view Detail/:id"
+          element={
+            <ProductDetail
+              onAddtoCart={handletoCart}
+              productCount={totalcount}
+            />
+          }
+        ></Route>
+
+        <Route
+          path="/Homepage/"
+          element={<ProductlistPage productCount={totalcount} />}
+        ></Route>
+        <Route
+          path="/Homepage/Cart"
+          element={<Cart cart={cart} updateCart={updateCart} />}
+        ></Route>
+        <Route path="/Homepage/Cart/Test" element={<Test />}></Route>
+      </Routes>
+    </div>
+  );
 }
 export default App;

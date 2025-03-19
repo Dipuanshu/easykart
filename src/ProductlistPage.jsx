@@ -7,6 +7,7 @@ import { getProductList } from "./api";
 import Loading from "./Loading";
 import Navbar from "./Navbar";
 import { useSearchParams } from "react-router-dom";
+import NavBottom from "./NavBottom";
 
 function ProductlistPage({ productCount }) {
   const [productlist, setProductList] = useState([]);
@@ -68,11 +69,11 @@ function ProductlistPage({ productCount }) {
   }
   return (
     <>
-      <Navbar productcount={productCount} />
-      <div className="flex justify-between mt-2">
+      <Navbar productCount={productCount} />
+      <div className="flex justify-between mt-14 md:px-36 px-3">
         <div>
           <select
-            className="border border-black rounded-md"
+            className="border border-black rounded-md py-1"
             onChange={handleSort}
             value={sort}
           >
@@ -86,6 +87,7 @@ function ProductlistPage({ productCount }) {
       <div className="">
         {data.length > 0 && <Porductlist products={data} />}
       </div>
+      <div className="mt-24"><NavBottom /></div>
     </>
   );
 }

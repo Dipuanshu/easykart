@@ -71,29 +71,15 @@ function App() {
        <div className="flex flex-col h-screen bg-slate-100 overflow-scroll">
             <div className="grow">
               <Routes>
-                <Route
-                  path="/HomePage"
-                  element={
-                    <UserRoute>
-                      <ProductlistPage productCount={totalcount}/>
-                    </UserRoute>
-                  }
-                />
-                <Route index element={<Login/>}></Route>
+                <Route index element={<UserRoute><ProductlistPage productCount={totalcount}/></UserRoute>}></Route>
+            
+               
                 <Route
                   path="/products/:id/"
                   element={
                     <UserRoute>
                       <ProductDetail onAddtoCart={handletoCart}
               productCount={totalcount} />
-                    </UserRoute>
-                  }
-                />
-                <Route
-                  path="*"
-                  element={
-                    <UserRoute>
-                      <Notfound/>
                     </UserRoute>
                   }
                 />
@@ -127,6 +113,12 @@ function App() {
                     <AuthRoute>
                       <FrogetPage/>
                     </AuthRoute>
+                  }
+                />
+                <Route
+                  path="/Homepage"
+                  element={
+                    <ProductlistPage/>
                   }
                 />
               </Routes>
