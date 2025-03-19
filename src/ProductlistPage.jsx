@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Porductlist from "./Productlist";
-import Nomatching from "./Nomatching";
+
 import { getProductList } from "./api";
 import Loading from "./Loading";
 import Navbar from "./Navbar";
