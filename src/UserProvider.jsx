@@ -1,35 +1,45 @@
-/** @format */
-
-import { useState, useEffect } from "react";
-import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { UserContext } from "./Contexts";
+import Loading from "./Loading";
+import axios from "axios";
 
 function UserProvider({ children }) {
   const [user, setUser] = useState();
-  const [userloading, setuserloading] = useState(true);
+  console.log("userProvide",user);
+  const [loading, setLoadng] = useState(true);
   const token = localStorage.getItem("token");
+
   useEffect(() => {
     if (token) {
       axios
         .get("https://myeasykart.codeyogi.io/me", {
           headers: {
-            Authorization: token, //Headers ke authriztion mai token sand krenge aur wo wha se data return krega
+            Authorization: token,
           },
         })
         .then((response) => {
           setUser(response.data);
-          setuserloading(false);
+          setLoadng(false);
+        })
+        .catch(() => {
+          localStorage.removeItem("token");
+          setLoadng(false);
         });
     } else {
-      setuserloading(false);
+      setLoadng(false);
     }
   }, []);
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ isLoggedIn: !!token, user, setUser }}>
       {children}
-    </UserContext.Provider> //jo wha inke bich mai tha sb yha aa jayega//
+    </UserContext.Provider>
   );
 }
+
 export default UserProvider;
+
+

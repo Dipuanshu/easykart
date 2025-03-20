@@ -12,9 +12,8 @@ import { useFormik } from "formik";
 import NavBottom from "./NavBottom";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import { withUser } from "./WithProvider";
 function Login({setUser,setAlert,productCount}) {
-  console.log("setAlert",setAlert);
-const nevigate=useNavigate();
   function callLoginApi(values) {
     axios
       .post("https://myeasykart.codeyogi.io/login", {
@@ -26,12 +25,10 @@ const nevigate=useNavigate();
         const { user, token } = response.data;
         localStorage.setItem("token", token);
         localStorage.setItem("user",user.full_name);
-        nevigate("/Homepage");
         setUser(user)
-      
-      })
+       })
       .catch(() => {
-      
+      setAlert("email not verified");
       });
   }
 
@@ -171,4 +168,4 @@ const nevigate=useNavigate();
     </>
   );
  }
-export default Login;
+export default withUser(Login);

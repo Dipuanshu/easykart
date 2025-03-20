@@ -3,26 +3,27 @@ import Navsearchbar from "./Navserchbar";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { AiFillCaretDown } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import WithUser from "./WithUser";
+import { withUser } from "./WithProvider";
 import Hmberger from "./Hmberger";
 import { FaHamburger } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { IoMdPower } from "react-icons/io";
-
+import { useNavigate } from "react-router-dom";
 function Navbar({ productCount, handSearch, setUser, id }) {
-
+const nevigate=useNavigate();
   const [menu, setmenu] = useState(false);
 
-  function handlmenu() {
-    setmenu(!menu);
+   function handleSignOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(undefined);
   }
-
-  function handleCart() {}
 
   function handleSearch(search) {
     handSearch(search);
   }
-
+  let link;
+{localStorage.getItem("token")?link="/Cart":link="/NoItem"}
   return (
     <>
       <div className="flex items-center justify-between w-full py-4 pl-10 pr-2 bg-blue-500 md:gap-5 md:pl-48 md:justify-normal md:pr-0">
@@ -38,7 +39,7 @@ function Navbar({ productCount, handSearch, setUser, id }) {
         </div>
 
         <div className="hidden md:block">
-          <Navsearchbar handleSearch={handleSearch} id={id} />
+          <Navsearchbar id={id} />
         </div>
         <div className="flex gap-4">
           <div className="flex items-center gap-2 text-white md:ml-0">
@@ -46,7 +47,7 @@ function Navbar({ productCount, handSearch, setUser, id }) {
             <div className="hidden text-xl font-medium md:block">Account</div>
           </div>
 
-          <Link to="/Homepage/Cart" onClick={handleCart}>
+          <Link to={link}>
             <div className="flex items-center">
               <AiOutlineShoppingCart className="text-4xl text-white" />
 
@@ -62,11 +63,7 @@ function Navbar({ productCount, handSearch, setUser, id }) {
 
           <div className="w-fit">
             <button
-              onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                setUser(undefined);
-              }}
+              onClick={handleSignOut}
               className="flex items-center gap-2"
             >
               <IoMdPower className="pl-2 text-4xl font-bold text-white" />
@@ -81,4 +78,4 @@ function Navbar({ productCount, handSearch, setUser, id }) {
   );
 }
 
-export default WithUser(Navbar);
+export default withUser(Navbar);

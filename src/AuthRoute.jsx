@@ -1,15 +1,14 @@
 /** @format */
 
 import React from "react";
-import { Navigate, Route } from "react-router-dom";
-import WithUser from "./WithUser";
-//ye sb isliye likh rhe hai taki baar baar na likhna pde//alag nhi likhna pdega
-function AuthRoute({ user, children }) {
+import { Navigate } from "react-router-dom";
+import { withUser } from "./WithProvider";
+
+function AuthRoute({ children, user }) {
   if (user) {
-    return <Navigate to={"/"} />;
+    return <Navigate to="/" />;
   }
-  {
-    return children;
-  }
+  return children;
 }
-export default WithUser(AuthRoute);
+
+export default withUser(AuthRoute);

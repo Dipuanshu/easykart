@@ -16,6 +16,7 @@ import UserProvider from "./UserProvider";
 import { useState } from "react";
 import { useEffect } from "react";
 import AlertProvider from "./AlertProvider";
+import NotItem from "./NotItem";
 
 //prante s child ko data be
 
@@ -65,68 +66,24 @@ function App() {
   );
  return (
   <>
-  
     <UserProvider>
       <AlertProvider>
-       <div className="flex flex-col h-screen bg-slate-100 overflow-scroll">
-            <div className="grow">
-              <Routes>
-                <Route index element={<UserRoute><ProductlistPage productCount={totalcount}/></UserRoute>}></Route>
-            
-               
-                <Route
-                  path="/products/:id/"
-                  element={
-                    <UserRoute>
-                      <ProductDetail onAddtoCart={handletoCart}
-              productCount={totalcount} />
-                    </UserRoute>
-                  }
-                />
-                <Route
-                  path="Homepage/Cart"
-                  element={
-                    <UserRoute>
-                      <Cart cart={cart} updateCart={updateCart} />
-                    </UserRoute>
-                  }
-                />
-                <Route
-                  path="/login"
-                  element={
-                    <AuthRoute>
-                      <Login />
-                    </AuthRoute>
-                  }
-                />
-                <Route
-                  path="singup"
-                  element={
-                    <AuthRoute>
-                      <SignUp/>
-                    </AuthRoute>
-                  }
-                />
-                <Route
-                  path="/forget password"
-                  element={
-                    <AuthRoute>
-                      <FrogetPage/>
-                    </AuthRoute>
-                  }
-                />
-                <Route
-                  path="/Homepage"
-                  element={
-                    <ProductlistPage/>
-                  }
-                />
-              </Routes>
-            </div>
-          
+        <div className="flex flex-col h-screen bg-slate-100 overflow-scroll">
+          <div className="grow">
+            <Routes>
+              <Route index element={<UserRoute><ProductlistPage productCount={totalcount} /></UserRoute>} />
+              <Route path="/products/:id/" element={<UserRoute><ProductDetail productCount={totalcount} /></UserRoute>} />
+              <Route path="/cart" element={<UserRoute><Cart cart={cart} updateCart={updateCart}/></UserRoute>} />
+              <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
+              <Route path="/signup" element={<AuthRoute><SignUp /></AuthRoute>} />
+              <Route path="/NoItem" element={<AuthRoute><NotItem /></AuthRoute>} />
+            </Routes>
           </div>
-       </AlertProvider>
+        </div>
+      </AlertProvider>
     </UserProvider>
+
+
     </>
  );
 }

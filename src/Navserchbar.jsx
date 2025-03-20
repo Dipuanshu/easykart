@@ -5,33 +5,43 @@ import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
 import ProductlistPage from "./ProductlistPage";
 import { useSearchParams } from "react-router-dom";
+import { object } from "yup";
 
-function Navsearchbar() {
+function Navsearchbar(id) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [inputValue, setInputValue] = useState("");
+ const params = Object.fromEntries([...searchParams]);
+ const path=window.location.pathname;
+let Id=id.id;
 
-  function handleInput(event) {
-    setInputValue(event.target.value);
+ let { sort, query } = params;
+ 
+  sort = sort || "default";
+  query = query || "";
+
+  function handleChange(event) {
+    setSearchParams({ ...params, query: event.target.value});
   }
 
-  const handleClick = () => {
-    setSearchParams({ query: inputValue });
-  };
 
   return (
-    <div className="flex items-center py-2 border rounded-sm bg-white">
+    <div className="flex items-center py-2 border rounded-sm bg-white w-96 justify-between">
+      <div className="w-full">
       <input
-        className=" focus:outline-none px-2"
+      disabled={path=="/products/"+Id || path=="/login"}
+        className=" focus:outline-none px-2 w-full"
         placeholder="Search Product & Brands"
-        value={inputValue}
-        onChange={handleInput}
+        value={query}
+        onChange={handleChange}
       />
+      </div>
+      <div>
       <button
-        className="px-3 text-2xl text-blue-500 ml-40"
-        onClick={handleClick}
+        className="px-3 text-2xl text-blue-500"
+       
       >
         <FaSearch />
       </button>
+      </div>
     </div>
   );
 }
