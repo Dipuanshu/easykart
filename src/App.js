@@ -47,10 +47,7 @@ function App() {
     localStorage.setItem("my-cart", cartString);
   }
   const totalcount = Object.keys(cart).reduce(function (privious, current) {
-    //array k from mai data dega key,value aur reduce use add kr dega
-    // 1st time mai reduce priv ko 0 dega
-    //kaise hoga priv=0 + current=4 = 4;
-    //next priv=4 + current=6 = 10;
+
     return privious + cart[current];
   }, 0);
 
