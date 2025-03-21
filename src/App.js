@@ -35,17 +35,24 @@ function App() {
   const [cart, setcart] = useState(savedData);
   console.log("cart is", cart); //usestate mai jo data saved hai wo dalenge jisse intial wo hi dikhe//
   const path = window.location.pathname;
-  function handletoCart(id, count) {
-    const oldcount = cart[id] || 0;
-    const newcart = { ...cart, [id]: oldcount + count };
+function handletoCart(id, count) {
+  const oldcount = cart[id] || 0;
+  const newcount = oldcount + count;
+  
+  if (newcount > 0) {
+    const newcart = { ...cart, [id]: newcount };
     updateCart(newcart);
+  } else {
+    const newcart = { ...cart };
+    delete newcart[id]; // Remove item if count goes to zero
+    updateCart(newcart);
+  }
+}
 
-  }
-  function updateCart(newcart) {
-    setcart(newcart);
-    const cartString = JSON.stringify(newcart);
-    localStorage.setItem("my-cart", cartString);
-  }
+function updateCart(newcart) {
+  setcart(newcart);
+  localStorage.setItem("my-cart", JSON.stringify(newcart));
+}
   const totalcount = Object.keys(cart).reduce(function (privious, current) {
 
     return privious + cart[current];
