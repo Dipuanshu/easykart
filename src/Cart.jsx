@@ -12,39 +12,48 @@ import { GiCrossedSabres } from "react-icons/gi";
 import NotItem from "./NotItem";
 function Cart({ cart, updateCart }) {
   const [CartList, setCartList] = useState([]);
+  console.log("cartList",CartList);
   const [loading, setloading] = useState(true);
   const [localCart, setlocalCart] = useState(cart);
 
   const ProductIds = Object.keys(cart);
+
   useEffect(
     function () {
       setlocalCart(cart);
     },
     [cart]
   );
-  useEffect(
-    function () {
-      const myProduct = [];
+useEffect(() => {
+  async function fetchProducts() {
 
-      for (let i = 0; i < ProductIds.length; i++) {
-        const p = getProductData(ProductIds[i]);
-        p.then(function (product) {
-          //JO ERROR THEN KO MILI WO ERROR AAGE PASS KER DEGA//
-          myProduct.push(product);
-          if (ProductIds.length == myProduct.length) {
-            //Codition lgane ka karan ye hai ki myproduct mai jaise hi 2 product aare hai wasie hi set ho ja rhe hai jisse hme 2 product ka data mil rha hai jaise hi myproduct 3 hoga tab jake set hoga//
-            setCartList(myProduct);
-            console.log("myproduct", myProduct);
-          }
 
-          setloading(false);
-        }).catch(function () {
-          setloading(false);
-        });
+    if (ProductIds.length === 0) {
+      setCartList([]); // Explicitly set CartList to empty if cart is empty
+      setloading(false);
+      return;
+    }
+
+    const myProduct = [];
+
+    for (let i = 0; i < ProductIds.length; i++) { // Fix loop condition
+      try {
+        const product = await getProductData(ProductIds[i]);
+        myProduct.push(product);
+
+        if (myProduct.length === ProductIds.length) {
+          setCartList(myProduct);
+        }
+      } catch (error) {
+        console.error("Error fetching product data:", error);
       }
-    },
-    [cart] //dependncy mai id isliye di kyuki id change hone per function run kerwana hai//
-  );
+    }
+    setloading(false);
+  }
+
+  fetchProducts();
+}, [cart]);
+
   if (!localStorage.getItem("token")) {
     return <NotItem />;
   }
@@ -59,11 +68,9 @@ function Cart({ cart, updateCart }) {
     const productid = event.currentTarget.getAttribute("productId"); //jo current Target hai usme to altribute hai uski value de dega..
     const newCart = { ...cart };
     delete newCart[productid];
-    updateCart(newCart);
-    console.log(newCart);
+    updateCart(newCart); 
   }
   function hadleChange(newvalue, productid) {
-    console.log("newvalue,productId", newvalue, productid);
     const NewlocalCart = { ...localCart, [productid]: newvalue };
     setlocalCart(NewlocalCart);
   }

@@ -33,45 +33,28 @@ function App() {
   //Local storage mai String ki from mai data save hota hai tabhi hamne json.parse() and json.stringfy() Pda.
 
   const [cart, setcart] = useState(savedData);
-  console.log("cart is", cart); //usestate mai jo data saved hai wo dalenge jisse intial wo hi dikhe//
+//usestate mai jo data saved hai wo dalenge jisse intial wo hi dikhe//
   const path = window.location.pathname;
-function handletoCart(id, count) {
-  const oldcount = cart[id] || 0;
-  const newcount = oldcount + count;
-  
-  if (newcount > 0) {
-    const newcart = { ...cart, [id]: newcount };
+  function handletoCart(id, count) {
+    const oldcount = cart[id] || 0;
+    const newcart = { ...cart, [id]: oldcount + count };
     updateCart(newcart);
-  } else {
-    const newcart = { ...cart };
-    delete newcart[id]; // Remove item if count goes to zero
-    updateCart(newcart);
-  }
-}
 
-function updateCart(newcart) {
-  setcart(newcart);
-  localStorage.setItem("my-cart", JSON.stringify(newcart));
-}
+  }
+  function updateCart(newcart) {
+    setcart(newcart);
+    const cartString = JSON.stringify(newcart);
+    localStorage.setItem("my-cart", cartString);
+  }
   const totalcount = Object.keys(cart).reduce(function (privious, current) {
 
     return privious + cart[current];
   }, 0);
-
-  const [query, setquery] = useState("");
-  function hadlesearch(event) {
-    setquery(event.target.value);
-  }
-  useEffect(
-    function () {
-      console.log("api call fnction", query);
-    },
-    [query]
-  );
  return (
   <>
     <UserProvider>
       <AlertProvider>
+      
         <div className="flex flex-col h-screen bg-slate-100 overflow-scroll">
           <div className="grow">
             <Routes>
