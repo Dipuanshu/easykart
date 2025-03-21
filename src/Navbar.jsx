@@ -1,74 +1,81 @@
-/** @format */
-
-import React from "react";
+import React, { useState } from "react";
 import Navsearchbar from "./Navserchbar";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { AiFillCaretDown } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import Navbar2 from "./Navbar2";
-import ProductlistPage from "./ProductlistPage";
+import { withUser } from "./WithProvider";
 import Hmberger from "./Hmberger";
 import { FaHamburger } from "react-icons/fa";
-import { useState } from "react";
-
-function Navbar({ productcount }) {
+import { CgProfile } from "react-icons/cg";
+import { IoMdPower } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+function Navbar({ productCount, handSearch, setUser, id }) {
+const nevigate=useNavigate();
   const [menu, setmenu] = useState(false);
-  function handlmenu() {
-    setmenu(!menu);
+
+   function handleSignOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(undefined);
   }
-  function handleCart() {}
+
+  function handleSearch(search) {
+    handSearch(search);
+  }
+  let link;
+{localStorage.getItem("token")?link="/Cart":link="/NoItem"}
   return (
     <>
-      <div className="border border-gray-300 invisible md:visible">
-        <div className="flex bg-blue-500 gap-7 h-20 p-4 md:gap-2">
-          <div className="ml-40">
-            <img
-              className="w-20"
-              src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/flipkart-plus_8d85f4.png"
-            />
-            <div className="flex italic">
-              <div className="text-0.1 text-white ">Explore</div>
-              <div className="text-x text-yellow-500 font-bold">Pluse</div>
-            </div>
+      <div className="flex items-center justify-between w-full py-4 pl-10 pr-2 bg-blue-500 md:gap-5 md:pl-48 md:justify-normal md:pr-0">
+        <div>
+          <img
+            className="w-20"
+            src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/flipkart-plus_8d85f4.png"
+          />
+          <div className="flex italic">
+            <div className="text-0.1 text-white ">Explore</div>
+            <div className="font-bold text-yellow-500 text-x">Pluse</div>
           </div>
-          <Navsearchbar />
-          <div className="border-border-black bg-white w-32 h-10 mt-1 text-center py-2 text-blue-500 font-bold">
-            <Link>Login</Link>
-          </div>
-          <div className="mt-3 text-white font-medium text-xl">
-            Become a Saller
-          </div>
-          <div className="mt-3 text-white font-medium text-xl flex gap-1">
-            More
-            <div className="mt-1.5">
-              <AiFillCaretDown />
-            </div>
-          </div>
-          <Link to="/Homepage/Cart">
-            <button onClick={handleCart}>
-              <div className="flex gap-2">
-                <div className="text-white mt-1 ml-1 flex flex-col items-center">
-                  {" "}
-                  <AiOutlineShoppingCart className="text-5xl" />
-                  <div className=" -mt-10 ml-2 text-black font-bold">
-                    {productcount}
-                  </div>
-                </div>
+        </div>
 
-                <div className="text-white mt-3 text-xl font-medium">Cart</div>
+        <div className="hidden md:block">
+          <Navsearchbar id={id} />
+        </div>
+        <div className="flex gap-4">
+          <div className="flex items-center gap-2 text-white md:ml-0">
+            <CgProfile className="text-4xl font-bold" />
+            <div className="hidden text-xl font-medium md:block">Account</div>
+          </div>
+
+          <Link to={link}>
+            <div className="flex items-center">
+              <AiOutlineShoppingCart className="text-4xl text-white" />
+
+              <div className="-mt-2 -ml-5 text-sm font-bold">
+                {localStorage.getItem("token")?productCount:0}
+              </div>
+
+              <div className="items-center hidden ml-4 text-xl font-medium text-white md:block">
+                Cart
+              </div>
+            </div>
+          </Link>
+
+          <div className="w-fit">
+            <button
+              onClick={handleSignOut}
+              className="flex items-center gap-2"
+            >
+              <IoMdPower className="pl-2 text-4xl font-bold text-white" />
+              <div className="hidden text-xl font-medium text-white md:block">
+                LogOut
               </div>
             </button>
-          </Link>
+          </div>
         </div>
       </div>
-      <Navbar2 />
-
-      <FaHamburger
-        className="text-red-500 text-5xl md:hidden"
-        onClick={handlmenu}
-      />
-      {menu && <Hmberger className="md:hidden" />}
     </>
   );
 }
-export default Navbar;
+
+export default withUser(Navbar);

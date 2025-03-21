@@ -2,26 +2,27 @@
 
 import { useEffect, useState } from "react";
 import Porductlist from "./Productlist";
-import Nomatching from "./Nomatching";
+
 import { getProductList } from "./api";
-import { dataFromApi } from "./dataFromApi";
 import Loading from "./Loading";
 import Navbar from "./Navbar";
-
-import Navsearchbar from "./Navserchbar";
 import { useSearchParams } from "react-router-dom";
+import NavBottom from "./NavBottom";
+import { withUser } from "./WithProvider";
 
 function ProductlistPage({ productCount }) {
   const [productlist, setProductList] = useState([]);
   console.log("produtlist", productlist);
 
   const [loading, setloading] = useState(true);
-  const [sort, setSort] = useState("default");
+ 
   const [searchParams, setSearchParams] = useSearchParams();
   const [data, setdata] = useState(productlist);
-  console.log("data", data);
+const params = Object.fromEntries([...searchParams]);
+let {sort}=params;
+sort=sort||"default";
   const query = searchParams.get("query");
-  console.log("query", query);
+
   useEffect(function () {
     const xyz = getProductList();
     //THEN K ANDER KA FUNCTION TABHI RUN HOGA JAB PROMISE PURI HOGI//
@@ -40,7 +41,6 @@ function ProductlistPage({ productCount }) {
   console.log("bhar wala code");
   useEffect(() => {
     if (query && productlist) {
-      console.log("useffect query", query);
       const data = productlist.filter((item) => {
         const lowercasetitle = item.title.toLowerCase();
         const lowercaseQuery = query.toLowerCase();
@@ -54,7 +54,7 @@ function ProductlistPage({ productCount }) {
   }, [query, productlist]);
 
   function handleSort(event) {
-    setSort(event.target.value);
+    setSearchParams({...params,sort:event.target.value})
   }
 
   if (sort == "price") {
@@ -66,16 +66,21 @@ function ProductlistPage({ productCount }) {
       return x.title < y.title ? -1 : 1;
     });
   }
+  else if(sort=="default"){
+    data.sort(function(x,y){
+      return x.id-y.id;
+    })
+  }
   if (loading) {
     return <Loading />;
   }
   return (
     <>
-      <Navbar productcount={productCount} />
-      <div className="flex justify-between mt-2">
-        <div>
+      <Navbar productCount={productCount} />
+      <div className="flex justify-between mt-14 md:px-36 px-3">
+        <div className="w-full">
           <select
-            className="border border-black rounded-md"
+            className="border border-black py-1 w-full md:w-fit ml-2"
             onChange={handleSort}
             value={sort}
           >
@@ -88,16 +93,10 @@ function ProductlistPage({ productCount }) {
 
       <div className="">
         {data.length > 0 && <Porductlist products={data} />}
-        {/* iska matlab yha per prodlistpage s productlist ko products ki from mai data bheja ja sakta hai
-        wha per ise products ki props mai lenge Porductlist({ products })*/}
       </div>
+      <div className="mt-24"><NavBottom /></div>
     </>
   );
 }
-export default ProductlistPage;
-//<div>
-//<Routes>
-// <Route index element={<ProductlistPage />} />
-//<Route path="/view Detail/:id" element={<ProductDetail />} />
-// </Routes>
-// </div>
+export default withUser(ProductlistPage);
+

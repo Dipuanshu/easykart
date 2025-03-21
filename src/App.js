@@ -1,15 +1,22 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
-import ProductlistPage from "./ProductlistPage";
-import { Route, Routes } from "react-router-dom";
+import {React} from "react";
+import { Routes, Route} from "react-router-dom";
 import ProductDetail from "./ProductDetail";
 import Navbar from "./Navbar";
+import ProductlistPage from "./ProductlistPage";
 import Notfound from "./Notfound";
-import Login from "./Login";
-import FancyInput from "./FancyInput";
 import Cart from "./Cart";
-import Test from "./Test";
+import Login from "./Login";
+import FrogetPage from "./FrogetPage";
+import SignUp from "./SignUp";
+import UserRoute from "./UserRoute";
+import AuthRoute from "./AuthRoute";
+import UserProvider from "./UserProvider";
+import { useState } from "react";
+import { useEffect } from "react";
+import AlertProvider from "./AlertProvider";
+import NotItem from "./NotItem";
 
 //prante s child ko data be
 
@@ -32,10 +39,7 @@ function App() {
     const oldcount = cart[productid] || 0;
     const newcart = { ...cart, [productid]: oldcount + count };
     updateCart(newcart);
-    //upadate krega setcart ko//
-    //ye objcet string ko simple string mai change krega kyuki local storage mai data string ki from mai hi save hota hai//
-    //name hai my-cart jis name s data local storage mai save hoga
-    //setItem store krne k liye aur getItem nikalne k liye jis name s save kiya hai//
+
   }
   function updateCart(newcart) {
     setcart(newcart);
@@ -43,10 +47,7 @@ function App() {
     localStorage.setItem("my-cart", cartString);
   }
   const totalcount = Object.keys(cart).reduce(function (privious, current) {
-    //array k from mai data dega key,value aur reduce use add kr dega
-    // 1st time mai reduce priv ko 0 dega
-    //kaise hoga priv=0 + current=4 = 4;
-    //next priv=4 + current=6 = 10;
+
     return privious + cart[current];
   }, 0);
 
@@ -60,42 +61,27 @@ function App() {
     },
     [query]
   );
-  //key mai function bhi store kr satkte hai
-  // const e={
-  // hello:function(){
+ return (
+  <>
+    <UserProvider>
+      <AlertProvider>
+        <div className="flex flex-col h-screen bg-slate-100 overflow-scroll">
+          <div className="grow">
+            <Routes>
+              <Route index element={<UserRoute><ProductlistPage productCount={totalcount} /></UserRoute>} />
+              <Route path="/products/:id/" element={<UserRoute><ProductDetail productCount={totalcount} /></UserRoute>} />
+              <Route path="/cart" element={<UserRoute><Cart cart={cart} updateCart={updateCart}/></UserRoute>} />
+              <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
+              <Route path="/signup" element={<AuthRoute><SignUp /></AuthRoute>} />
+              <Route path="/NoItem" element={<AuthRoute><NotItem /></AuthRoute>} />
+            </Routes>
+          </div>
+        </div>
+      </AlertProvider>
+    </UserProvider>
 
-  // }
 
-  //overflow scrool overflow ko scrool mai add krke dikayega//
-  //grwo propety not working//
-  return (
-    <div>
-      <Routes>
-        <Route index element={<Login />}></Route>
-      </Routes>
-
-      <Routes>
-        <Route
-          path="/view Detail/:id"
-          element={
-            <ProductDetail
-              onAddtoCart={handletoCart}
-              productCount={totalcount}
-            />
-          }
-        ></Route>
-
-        <Route
-          path="/Homepage/"
-          element={<ProductlistPage productCount={totalcount} />}
-        ></Route>
-        <Route
-          path="/Homepage/Cart"
-          element={<Cart cart={cart} updateCart={updateCart} />}
-        ></Route>
-        <Route path="/Homepage/Cart/Test" element={<Test />}></Route>
-      </Routes>
-    </div>
-  );
+    </>
+ );
 }
 export default App;

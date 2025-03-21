@@ -5,8 +5,11 @@ import React, { useState, useEffect } from "react";
 import { getProductData } from "./api";
 import Loading from "./Loading";
 import Notfound from "./Notfound";
+import NavBottom from "./NavBottom";
 
 import { GiCrossedSabres } from "react-icons/gi";
+
+import NotItem from "./NotItem";
 function Cart({ cart, updateCart }) {
   const [CartList, setCartList] = useState([]);
   const [loading, setloading] = useState(true);
@@ -42,11 +45,13 @@ function Cart({ cart, updateCart }) {
     },
     [cart] //dependncy mai id isliye di kyuki id change hone per function run kerwana hai//
   );
-
+  if (!localStorage.getItem("token")) {
+    return <NotItem />;
+  }
   if (loading) return <Loading />;
   if (!CartList)
     return (
-      <div className="text-center text-red-700 text-lg">
+      <div className="text-lg text-center text-red-700">
         <Notfound />
       </div>
     );
@@ -67,43 +72,102 @@ function Cart({ cart, updateCart }) {
   }
   return (
     <>
-      <div className="bg-gray-400 p-5 mx-12 border border-black mt-8 flex">
-        <div className=" font-bold px-40">Product</div>
-        <div className="flex font-bold mx-5 gap-48">
+      <div className="flex p-5 mx-1 mt-8 text-sm bg-gray-400 border border-black gap-14 md:mx-12 md:text-base md:gap-8">
+        <div className="px-0 ml-8 font-bold md:ml-0 md:px-36">Product</div>
+        <div className="flex gap-3 font-bold md:mx-12 md:gap-44">
           <div>Price</div>
           <div>Quantity</div>
-          <div className="mx-10">SubTotal</div>
+          <div className="mx-0 md:mx-10">Total</div>
         </div>
       </div>
 
       {CartList.map(function (p) {
         return (
           <>
-            <div className="border border-black mx-12 items-center px-8 flex">
-              <button className="w-6" productId={p.id} onClick={handleRemove}>
-                <GiCrossedSabres />
-              </button>
-              <div>{<img src={p.thumbnail} className="w-20" />}</div>
-              <div className="grow">{p.title}</div>
+            <div className="mx-1 text-xs border border-black md:mx-12 md:text-base">
+              <div className="flex items-center px-1">
+                <button
+                  className="w-4 md:w-6 md:ml-12"
+                  productId={p.id}
+                  onClick={handleRemove}
+                >
+                  <GiCrossedSabres />
+                </button>
+                <img
+                  className="object-cover w-12 md:w-20 md:h-20"
+                  src={p.thumbnail}
+                />
+                <div className="w-20 md:w-72">{p.title}</div>
 
-              <div className=" items-center w-18 ">${p.price}</div>
-              <input
-                productId={p.id}
-                type="number"
-                value={localCart[p.id]}
-                onChange={function (event) {
-                  hadleChange(+event.target.value, p.id);
-                }}
-                className=" items-center w-10 mx-40 border border-black"
-              ></input>
-              <div>{p.price * localCart[p.id]}</div>
+                <div className="items-center w-12 ml-2">${p.price}</div>
+                <input
+                  productId={p.id}
+                  type="number"
+                  value={localCart[p.id]}
+                  onChange={function (event) {
+                    hadleChange(+event.target.value, p.id);
+                  }}
+                  className="w-10 pl-4 ml-3 border border-black md:ml-44"
+                ></input>
+                <div className="ml-4 md:ml-60">{p.price * localCart[p.id]}</div>
+              </div>
             </div>
           </>
         );
       })}
-      <button onClick={UpdateCart} className="bg-blue-900">
-        Update
-      </button>
+      <div className="flex items-center justify-between px-2 mx-1 text-xs border border-black md:p-3 md:px-8 md:mx-12 md:text-base">
+        <div className="items-center justify-center py-2 md:flex md:gap-5">
+          <div>
+            <input
+              placeholder="Cupone Code"
+              className="w-32 border-2 border-gray-400 md:px-1"
+            />
+          </div>
+          <div>
+            <button
+              onClick={UpdateCart}
+              className="md:px-4 md:py-0.5 text-white bg-red-600 rounded-sm mt-2 md:mt-0 p-1 md:p-0"
+            >
+              APPLY CUPON
+            </button>
+          </div>
+        </div>
+        <div>
+          <button
+            onClick={UpdateCart}
+            className="md:px-4 py-0.5 text-white bg-red-400 rounded-sm px-1"
+          >
+            UPADATE CART
+          </button>
+        </div>
+      </div>
+      <div className="pr-1 text-xs md:pr-12 md:text-base">
+        <div className="flex items-end justify-end mt-5">
+          <div className="text-sm font-bold bg-gray-300 border border-black w-44 md:text-xl md:w-72">
+            <div className="p-3">Cart totals</div>
+          </div>
+        </div>
+        <div className="flex items-end justify-end ">
+          <div className="font-bold border border-black text-md md:w-72 w-44">
+            <div className="p-3">Subtotal:</div>
+          </div>
+        </div>
+        <div className="flex items-end justify-end ">
+          <div className="font-bold border border-black text-md md:w-72 w-44">
+            <div className="p-3">Total:</div>
+          </div>
+        </div>
+        <div className="flex items-end justify-end ">
+          <div className="p-1 font-bold border border-black text-md md:w-72 w-44">
+            <div className="flex items-center justify-center text-white bg-red-500 border rounded-md">
+              PROCESSED TO CHECKOUT
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-20">
+        <NavBottom />
+      </div>
     </>
   );
 }

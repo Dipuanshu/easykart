@@ -1,22 +1,12 @@
-/** @format */
-//Dono same hai bs usercontext aur alertcontext mai diffrent hai to use provider mai le liya aur withProvider HOC return Krega//
-//Provider mai userContext aur AlertContext sand krege//
 import React, { useContext } from "react";
+import {UserContext,AlertContext} from "./Contexts"
 
-function WithProvider(provider) {
-  console.log("provider", provider);
-  function MyHOC(IncomingComponent) {
-    //isme incoming mai wo componet aayga jha HOC use hoga
+const withProvider = (provider) => (IncomingComponent) => (props) => {
+  const contextData = useContext(provider);
+  return <IncomingComponent {...props} {...contextData} />;
+};
 
-    function OutgoingComponent(props) {
-      const { ContextData } = useContext(provider);
-      console.log("cotextdat", ContextData);
-      return <IncomingComponent {...props} {...ContextData} />;
-      //user={user} setUser={setuser}
-    }
+export default withProvider;
+export const withAlert = withProvider(AlertContext);
+export const withUser = withProvider(UserContext);
 
-    return OutgoingComponent;
-  }
-  return MyHOC;
-}
-export default WithProvider;
