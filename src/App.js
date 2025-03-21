@@ -8,7 +8,7 @@ import ProductlistPage from "./ProductlistPage";
 import Notfound from "./Notfound";
 import Cart from "./Cart";
 import Login from "./Login";
-import FrogetPage from "./FrogetPage";
+
 import SignUp from "./SignUp";
 import UserRoute from "./UserRoute";
 import AuthRoute from "./AuthRoute";
@@ -35,9 +35,9 @@ function App() {
   const [cart, setcart] = useState(savedData);
   console.log("cart is", cart); //usestate mai jo data saved hai wo dalenge jisse intial wo hi dikhe//
   const path = window.location.pathname;
-  function handletoCart(productid, count) {
-    const oldcount = cart[productid] || 0;
-    const newcart = { ...cart, [productid]: oldcount + count };
+  function handletoCart(id, count) {
+    const oldcount = cart[id] || 0;
+    const newcart = { ...cart, [id]: oldcount + count };
     updateCart(newcart);
 
   }
