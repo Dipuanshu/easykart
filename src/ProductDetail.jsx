@@ -32,7 +32,7 @@ function ProductDetail({ onAddToCart,productCount }) {
   }
 
   function handleButtonClick() {
-    onAddToCart(id, count);
+  onAddToCart(id,count);
   }
 
   useEffect(

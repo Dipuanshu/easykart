@@ -69,7 +69,7 @@ function App() {
           <div className="grow">
             <Routes>
               <Route index element={<UserRoute><ProductlistPage productCount={totalcount} /></UserRoute>} />
-              <Route path="/products/:id/" element={<UserRoute><ProductDetail productCount={totalcount} /></UserRoute>} />
+              <Route path="/products/:id/" element={<UserRoute><ProductDetail onAddToCart={handletoCart}  productCount={totalcount} /></UserRoute>} />
               <Route path="/cart" element={<UserRoute><Cart cart={cart} updateCart={updateCart}/></UserRoute>} />
               <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
               <Route path="/signup" element={<AuthRoute><SignUp /></AuthRoute>} />
