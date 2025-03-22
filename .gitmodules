@@ -1,0 +1,3 @@
+[submodule "easykart"]
+	url = https://github.com/Dipuanshu/easykart.git
+    path= easykart
