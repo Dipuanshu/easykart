@@ -62,7 +62,7 @@ function App() {
               <Route path="/products/:id/" element={<UserRoute><ProductDetail onAddToCart={handletoCart}  productCount={totalcount} /></UserRoute>} />
               <Route path="/cart" element={<UserRoute><Cart cart={cart} updateCart={updateCart}/></UserRoute>} />
               <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
-              <Route path="/signup" element={<AuthRoute><SignUp /></AuthRoute>} />
+              <Route path="/sign-up" element={<AuthRoute><SignUp /></AuthRoute>} />
               <Route path="/NoItem" element={<AuthRoute><NotItem /></AuthRoute>} />
             </Routes>
           </div>
