@@ -5,7 +5,7 @@ import { AiOutlineStar } from "react-icons/ai";
 function Product({ title, price, id, category, thumbnail }) {
   return (
     
-    <div className="rounded-md pb-5 py-10 flex flex-col items-center ">
+    <div className="rounded-md md:pb-5 flex flex-col items-center pb-2">
       <div className="aspect-square rounded-md border-black border-2 w-72">
         <Link to={"/products/" + id}>
           <img className="w-full h-full object-cover" src={thumbnail} />

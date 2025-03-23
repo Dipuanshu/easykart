@@ -56,7 +56,9 @@ sort=sort||"default";
   function handleSort(event) {
     setSearchParams({...params,sort:event.target.value})
   }
-
+function handleQuery(event){
+  setSearchParams({...params,query:event.target.value});
+}
   if (sort == "price") {
     data.sort(function (x, y) {
       return x.price - y.price;
@@ -77,10 +79,13 @@ sort=sort||"default";
   return (
     <>
       <Navbar productCount={productCount} />
-      <div className="flex justify-between mt-14 md:px-36 px-3">
+      <div className="w-full px-4 pb-2 md:hidden block">
+        <input value={query} onChange={handleQuery} className="border border-black w-full rounded-full mt-14 pl-2 py-2"placeholder="Search Product"/>
+      </div>
+      <div className="flex md:mt-14 md:px-36 w-full px-4">
         <div className="w-full">
           <select
-            className="border border-black py-1 w-full md:w-fit ml-2"
+            className="border border-black py-2 w-full md:w-fit md:ml-2"
             onChange={handleSort}
             value={sort}
           >

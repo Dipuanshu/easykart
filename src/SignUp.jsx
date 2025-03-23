@@ -15,7 +15,7 @@ import { withUser } from "./WithProvider";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-function SignUp(props) {
+function SignUp({setUser}) {
   const nevigate = useNavigate();
   const [error, seterror] = useState();
   function LoginChecker(values) {
@@ -28,7 +28,7 @@ function SignUp(props) {
       .then((response) => {
         const { user, token } = response.data;
         localStorage.setItem("token", token);
-        nevigate("/Homepage");
+        setUser(user);
       })
       .catch((err) => {
         seterror("Email Already registered");
