@@ -78,7 +78,7 @@ function handleQuery(event){
   }
   return (
     <>
-      <Navbar productCount={productCount} />
+   
       <div className="w-full px-4 pb-2 md:hidden block">
         <input value={query} onChange={handleQuery} className="border border-black w-full rounded-full mt-14 pl-2 py-2"placeholder="Search Product"/>
       </div>
@@ -99,7 +99,6 @@ function handleQuery(event){
       <div className="">
         {data.length > 0 && <Porductlist products={data} />}
       </div>
-      <div className="mt-24"><NavBottom /></div>
     </>
   );
 }

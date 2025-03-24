@@ -1,11 +1,10 @@
 /** @format */
 
 import {React} from "react";
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route, useParams} from "react-router-dom";
 import ProductDetail from "./ProductDetail";
 import Navbar from "./Navbar";
 import ProductlistPage from "./ProductlistPage";
-import Notfound from "./Notfound";
 import Cart from "./Cart";
 import Login from "./Login";
 
@@ -14,9 +13,10 @@ import UserRoute from "./UserRoute";
 import AuthRoute from "./AuthRoute";
 import UserProvider from "./UserProvider";
 import { useState } from "react";
-import { useEffect } from "react";
+
 import AlertProvider from "./AlertProvider";
 import NotItem from "./NotItem";
+import NavBottom from "./NavBottom";
 
 //prante s child ko data be
 
@@ -29,12 +29,14 @@ console.log(b["price"], typeof b); // a[price] gives a error stirng s value read
 function App() {
   const savedDataString = localStorage.getItem("my-cart") || "{}";
   const savedData = JSON.parse(savedDataString);
+    const id = +useParams().id;
 
   //Local storage mai String ki from mai data save hota hai tabhi hamne json.parse() and json.stringfy() Pda.
 
   const [cart, setcart] = useState(savedData);
 //usestate mai jo data saved hai wo dalenge jisse intial wo hi dikhe//
   const path = window.location.pathname;
+  console.log("path",path);
   function handletoCart(id, count) {
     const oldcount = cart[id] || 0;
     const newcart = { ...cart, [id]: oldcount + count };
@@ -56,6 +58,7 @@ function App() {
       <AlertProvider>
       
         <div className="flex flex-col h-screen bg-slate-100 overflow-scroll">
+          {path!="/Cart"&&<Navbar productCount={totalcount} id={id}/>}
           <div className="grow">
             <Routes>
               <Route index element={<UserRoute><ProductlistPage productCount={totalcount} /></UserRoute>} />
@@ -66,6 +69,7 @@ function App() {
               <Route path="/NoItem" element={<AuthRoute><NotItem /></AuthRoute>} />
             </Routes>
           </div>
+          <NavBottom/>
         </div>
       </AlertProvider>
     </UserProvider>

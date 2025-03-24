@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 function SignUp({setUser}) {
-  const nevigate = useNavigate();
   const [error, seterror] = useState();
   function LoginChecker(values) {
     axios
@@ -79,7 +78,7 @@ function SignUp({setUser}) {
   console.log("errors", errors);
   return (
     <>
-      <Navbar />
+      
 
       <div className=" grow">
         <div className="w-full h-full p-8 bg-gray-200 sm:p-20">
@@ -291,7 +290,7 @@ function SignUp({setUser}) {
         </div>
       </div>
 
-      <NavBottom />
+     
     </>
   );
 }
